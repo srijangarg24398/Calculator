@@ -10,37 +10,6 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-// export class Button extends Component{
-//   constructor(props){
-//     super(props)
-//     this.props.myMethod=this.props.myMethod.bind(this)
-//   }
-//   render(){
-//     return (
-//       <TouchableOpacity onPress={this.props.myMethod(this.props.number)}>
-//         <View style={styles.button}> <Text style={styles.buttonText}>
-//           {this.props.number}
-//         </Text> </View>
-//       </TouchableOpacity>
-//     )
-//   }
-// }
-
-// export class Operator extends Component{
-//   constructor(props){
-//     super(props)
-//   }
-//   render(){
-//     return (
-//       <View style={styles.row}>
-//         <TouchableOpacity onPress={this.props.myMethod}>
-//           <View style={styles.button}> <Text style={styles.buttonText}>{this.props.op}</Text> </View>
-//         </TouchableOpacity>
-//       </View>
-//     )
-//   }
-// }
-
 export default class App extends Component {
   constructor(){
     super()
@@ -77,7 +46,6 @@ export default class App extends Component {
     else if (data== 'C'){
       let oldTxt=this.state.resultText
       let newTxt= oldTxt.substr(0,oldTxt.length-1)
-      console.log(newTxt)
       this.setState({
         resultText: newTxt
       })
@@ -89,7 +57,7 @@ export default class App extends Component {
   }
 
   onPressOperator(op){
-    if (this.state.resultText == '') return;
+    if (this.state.resultText == '') return
     let lastChar=this.state.resultText.split('').pop()
     let operations=['*','/','-','+']
     if (operations.indexOf(lastChar)!= -1) return
@@ -100,7 +68,6 @@ export default class App extends Component {
   }
 
   _onLongPressButton() {
-    console.log("Long press")
     this.setState({
       resultText: '',
       calculationText: ''
@@ -108,17 +75,14 @@ export default class App extends Component {
   }
   
   render() {
-    // Numbers
     let rows=[]
     for(let i=0;i<4;i++){
       let row=[]
       let lastRow=['.',0,'=']
       for (let j=0;j<3;j++){
-        // let num=(i*3)+j+1;
-        let num=((2-i)*3)+j+1;
-        let elem;
+        let num=((2-i)*3)+j+1
+        let elem
         if (num > 0 && num <= 9){
-          // elem=<Button number={num} key={num} myMethod={this.onPressButton}/>
           elem=(
             <TouchableOpacity key={num} onPress={()=>this.onPressButton(num)}>
               <View style={styles.button}> 
@@ -130,7 +94,6 @@ export default class App extends Component {
           )
         }
         else{
-          // elem=<Button number={lastRow[num-10]} key={num} myMethod={this.onPressButton}/>
           elem=(
             <TouchableOpacity key={num} onPress={()=>this.onPressButton(lastRow[num+2])} >
                   <View style={styles.button}> 
@@ -143,22 +106,24 @@ export default class App extends Component {
         }
         row.push(elem)
       }
-      rows.push(<View style={[styles.row,styles.borderbottom]} key={i}>{row}</View>)
+      rows.push(<View style={styles.row} key={i}>{row}</View>)
     }
 
-    // Operators
     let operators=['C','*','/','-','+']
     let ops=[]
     ops.push(
       <TouchableOpacity key={operators[0]} style={styles.row}  onPress={()=>this.onPressButton(operators[0])} onLongPress={this._onLongPressButton} >
-        <View style={styles.button}> <Text style={styles.buttonText}>{operators[0]}</Text> </View>
+        <View style={styles.button}>
+          <Text style={styles.buttonText}>{operators[0]}</Text> 
+        </View>
       </TouchableOpacity>
     )
     for (let i=1;i<operators.length;i++){
-      // ops.push(<Operator op={operators[i]} key={operators[i]}/> )
       ops.push(
         <TouchableOpacity key={operators[i]} style={styles.row}  onPress={()=>this.onPressOperator(operators[i])} >
-          <View style={styles.button}> <Text style={styles.buttonText}>{operators[i]}</Text> </View>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>{operators[i]}</Text>
+          </View>
         </TouchableOpacity>
       )
     }
@@ -186,8 +151,6 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   result: {
     flex: 2,
@@ -224,11 +187,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  borderbottom:{
-    // borderBottomWidth: 0.2,
-  },
   button: {
-    // marginBottom: 30,
     alignItems: 'stretch',
     backgroundColor: 'transparent',
     justifyContent: 'center',
